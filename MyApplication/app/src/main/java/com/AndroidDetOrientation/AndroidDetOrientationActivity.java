@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 public class AndroidDetOrientationActivity extends Activity
         implements SensorEventListener{
 
@@ -46,6 +48,17 @@ public class AndroidDetOrientationActivity extends Activity
         matrixR = new float[9];
         matrixI = new float[9];
         matrixValues = new float[3];
+
+        //Initiailizing Firebase
+        Firebase.setAndroidContext(this);
+        final Firebase rootDirectory = new Firebase("https://invisible.firebaseio.com/");
+        Firebase cd = rootDirectory.child("users");
+        Map<String, Integer> firstMap = new HashMap<String, Integer>();
+        firstMap.put("anish", 0);
+        firstMap.put("jason," 1);
+        firstMap.put("david", 2);
+        firstMap.put("charlie", 3);
+        cd.setValue(firstMap);
     }
 
     @Override
