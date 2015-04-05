@@ -1,5 +1,6 @@
 package com.AndroidDetOrientation;
 
+import android.content.Intent;
 import android.location.Location;
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class LocationGetter extends Activity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+    Intent orientationIntent;
+
     private final String TAG = "MyAwesomeApp";
 
     private TextView mLocationView;
@@ -32,6 +35,8 @@ public class LocationGetter extends Activity implements
         mLocationView = new TextView(this);
 
         setContentView(mLocationView);
+
+        orientationIntent = new Intent(this, AndroidDetOrientationActivity.class);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -64,6 +69,13 @@ public class LocationGetter extends Activity implements
         //LocationServices.FusedLocationApi.requestLocationUpdates(
         //        mGoogleApiClient, mLocationRequest, this);
         Location playerLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (playerLocation != null) {
+            System.out.println(orientationIntent);
+            System.out.println(playerLocation);
+            orientationIntent.putExtra("location", playerLocation);
+            startActivity(orientationIntent);
+            finish();
+        }
     }
 
     @Override

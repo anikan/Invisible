@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,16 +57,9 @@ public class AndroidDetOrientationActivity extends Activity
         matrixI = new float[9];
         matrixValues = new float[3];
 
-        //Initiailizing Firebase
-        Firebase.setAndroidContext(this);
-        final Firebase rootDirectory = new Firebase("https://invisible.firebaseio.com/");
-        Firebase cd = rootDirectory.child("users");
-        Map<String, Integer> firstMap = new HashMap<String, Integer>();
-        firstMap.put("anish", 0);
-        firstMap.put("jason", 1);
-        firstMap.put("david", 2);
-        firstMap.put("charlie", 3);
-        cd.setValue(firstMap);
+//        i.putExtra("name", "value");
+
+
     }
 
     @Override
@@ -126,12 +120,22 @@ public class AndroidDetOrientationActivity extends Activity
             double pitch = Math.toDegrees(matrixValues[1]);
             double roll = Math.toDegrees(matrixValues[2]);
 
-            readingAzimuth.setText("Azimuth: " + String.valueOf(azimuth));
-            readingPitch.setText("Pitch: " + String.valueOf(pitch));
-            readingRoll.setText("Roll: " + String.valueOf(roll));
+            //Initiailizing Firebase
+            Firebase.setAndroidContext(this);
+            final Firebase rootDirectory = new Firebase("https://invisible.firebaseio.com/");
+            Firebase cd = rootDirectory.child("users");
+            Map<String, Double> firstMap = new HashMap<String, Double>();
+            firstMap.put("azimuth", azimuth);
 
-            myCompass.update(matrixValues[0]);
+            Bundle extras = getIntent().getExtras();
+            Location location = (Location)(extras.getParcelable("location"));
+
+            System.out.println(location);
+            firstMap.put("lat", location.getLatitude());
+            firstMap.put("long", location.getLongitude());
+            cd.setValue(firstMap);
+
+            finish();
         }
-
     }
 }

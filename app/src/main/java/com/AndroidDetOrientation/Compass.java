@@ -1,6 +1,7 @@
 package com.AndroidDetOrientation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,9 +11,9 @@ import android.view.View;
 public class Compass extends View {
 
     private float direction;
-
     public Compass(Context context) {
         super(context);
+
         // TODO Auto-generated constructor stub
     }
 
